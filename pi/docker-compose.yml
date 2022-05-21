@@ -1,0 +1,109 @@
+---
+version: "2.1"
+services:
+  swag:
+    image: lscr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+      - TZ=${TZ}
+      - URL=raspberrypi.lan.wavecat.net
+      - VALIDATION=dns
+      - SUBDOMAINS=wildcard
+      - CERTPROVIDER=zerossl
+      - DNSPLUGIN=route53
+      - EMAIL=sweeneytri@gmail.com
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      - /opt/linuxserver/swag:/config
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+    
+  public_swag:
+    image: lscr.io/linuxserver/swag
+    container_name: public_swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+      - TZ=${TZ}
+      - URL=wavecat.net
+      - VALIDATION=dns
+      - SUBDOMAINS=wildcard
+      - CERTPROVIDER=zerossl
+      - DNSPLUGIN=route53
+      - EMAIL=sweeneytri@gmail.com
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      - /opt/linuxserver/public_swag:/config
+    ports:
+      - 55443:443
+      - 5580:80
+    restart: unless-stopped
+    
+  homeassistant:
+    image: lscr.io/linuxserver/homeassistant
+    container_name: homeassistant
+    network_mode: host
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+      - TZ=${TZ}
+    volumes:
+      - /opt/linuxserver/homeassistant:/config
+    restart: unless-stopped
+
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+      - TZ=${TZ}
+    volumes:
+      - /opt/linuxserver/heimdall:/config
+    restart: unless-stopped
+    
+  overseerr:
+    image: lscr.io/linuxserver/overseerr
+    container_name: overseerr
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+      - TZ=${TZ}
+    volumes:
+      - /opt/linuxserver/overseerr:/config
+    dns:
+      -  172.17.0.1
+    restart: unless-stopped
+
+  foundryvtt:
+    image: felddy/foundryvtt:release
+    container_name: foundryvtt
+    init: true
+    volumes:
+      - /opt/foundryvtt:/data
+    environment:
+      - FOUNDRY_PASSWORD=${FOUNDRY_PASSWORD}
+      - FOUNDRY_USERNAME=sweeneytri@gmail.com
+      - FOUNDRY_ADMIN_KEY=${FOUNDRY_ADMIN_KEY}
+      - FOUNDRY_UID=${UID}
+      - FOUNDRY_GID=${GID}
+    restart: unless-stopped
+    
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    user: ${UID}:${GID}
+    volumes:
+      - /opt/foundryvtt/:/srv/foundryvtt
+      - /opt/filebrowser/filebrowser.db:/database.db
+    restart: unless-stopped
