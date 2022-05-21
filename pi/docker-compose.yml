@@ -16,8 +16,8 @@ services:
       - CERTPROVIDER=zerossl
       - DNSPLUGIN=route53
       - EMAIL=sweeneytri@gmail.com
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
+      - AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
     volumes:
       - /opt/linuxserver/swag:/config
     ports:
@@ -40,8 +40,8 @@ services:
       - CERTPROVIDER=zerossl
       - DNSPLUGIN=route53
       - EMAIL=sweeneytri@gmail.com
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
+      - AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
     volumes:
       - /opt/linuxserver/public_swag:/config
     ports:
@@ -92,9 +92,9 @@ services:
     volumes:
       - /opt/foundryvtt:/data
     environment:
-      - FOUNDRY_PASSWORD=${FOUNDRY_PASSWORD}
+      - FOUNDRY_PASSWORD="${FOUNDRY_PASSWORD}"
       - FOUNDRY_USERNAME=sweeneytri@gmail.com
-      - FOUNDRY_ADMIN_KEY=${FOUNDRY_ADMIN_KEY}
+      - FOUNDRY_ADMIN_KEY="${FOUNDRY_ADMIN_KEY}"
       - FOUNDRY_UID=${UID}
       - FOUNDRY_GID=${GID}
     restart: unless-stopped
