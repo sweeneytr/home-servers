@@ -1,0 +1,147 @@
+---
+version: '3.3'
+services:
+  swag:
+    image: ghcr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+      - URL=openmediavault.lan.wavecat.net
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - CERTPROVIDER=zerossl
+      - DNSPLUGIN=route53
+      - "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+      - "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+      - EMAIL=sweeneytri@gmail.com
+    volumes:
+      - /srv/mrgfs_configs/swag/config:/config
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+    volumes:
+      - /srv/mrgfs_configs/heimdall/config:/config
+    restart: unless-stopped  
+
+  transmission-openvpn:
+    image: haugene/transmission-openvpn
+    container_name: transmission
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - '/srv/mrgfs_movies:/data'
+    environment:
+      - OPENVPN_PROVIDER=PIA
+      - "OPENVPN_USERNAME=${OPENVPN_USERNAME}"
+      - "OPENVPN_PASSWORD=${OPENVPN_PASSWORD}"
+      - LOCAL_NETWORK=192.168.0.0/16
+      - TRANSMISSION_WEB_UI=combustion
+      - DISABLE_PORT_UPDATER=true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    restart: unless-stopped
+
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+    volumes:
+      - /srv/mrgfs_configs/jackett/config:/config
+      - /srv/mrgfs_movies/completed:/downloads
+    restart: unless-stopped
+
+  plex:
+    image: lscr.io/linuxserver/plex
+    container_name: plex
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+      - VERSION=docker
+    volumes:
+      - /srv/mrgfs_configs/plex/config:/config
+      - /srv/mrgfs_movies/TV:/tv
+      - /srv/mrgfs_movies/Movies:/movies
+      - /srv/mrgfs_movies/Music:/music
+    network_mode: host
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+    volumes:
+      - /srv/mrgfs_configs/sonarr/config:/config
+      - /srv/mrgfs_movies:/data
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+    volumes:
+      - /srv/mrgfs_configs/radarr/config:/config
+      - /srv/mrgfs_movies:/data
+    restart: unless-stopped
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+    volumes:
+      - /srv/mrgfs_configs/lidarr/config:/config
+      - /srv/mrgfs_movies:/data
+    restart: unless-stopped
+
+  nzbhydra2:
+    image: lscr.io/linuxserver/nzbhydra2
+    container_name: nzbhydra2
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+    volumes:
+      - /srv/mrgfs_configs/nzbhydra2/config:/config
+      - /srv/mrgfs_movies:/downloads
+    restart: unless-stopped
+
+  doublecommander:
+    image: lscr.io/linuxserver/doublecommander
+    container_name: doublecommander
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
+    volumes:
+      - /srv/mrgfs_configs/doublecommander/config:/config
+      - /srv/mrgfs_movies:/data
+    ports:
+      - 3000:3000
+    restart: unless-stopped
