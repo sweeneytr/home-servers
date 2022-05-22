@@ -132,16 +132,11 @@ services:
       - /srv/mrgfs_movies:/downloads
     restart: unless-stopped
 
-  doublecommander:
-    image: lscr.io/linuxserver/doublecommander
-    container_name: doublecommander
-    environment:
-      - "PUID=${UID}"
-      - "PGID=${GID}"
-      - "TZ=${TZ}"
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    user: "${UID}:${GID}"
     volumes:
-      - /srv/mrgfs_configs/doublecommander/config:/config
-      - /srv/mrgfs_movies:/data
-    ports:
-      - 3000:3000
+      - /srv/mrgfs_movies:/srv/plex
+      - /opt/filebrowser/filebrowser.db:/database.db
     restart: unless-stopped
