@@ -7,17 +7,17 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
-      - TZ=${TZ}
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
       - URL=raspberrypi.lan.wavecat.net
       - VALIDATION=dns
       - SUBDOMAINS=wildcard
       - CERTPROVIDER=zerossl
       - DNSPLUGIN=route53
       - EMAIL=sweeneytri@gmail.com
-      - AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
-      - AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+      - "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+      - "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
     volumes:
       - /opt/linuxserver/swag:/config
     ports:
@@ -31,17 +31,17 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
-      - TZ=${TZ}
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
       - URL=wavecat.net
       - VALIDATION=dns
       - SUBDOMAINS=wildcard
       - CERTPROVIDER=zerossl
       - DNSPLUGIN=route53
       - EMAIL=sweeneytri@gmail.com
-      - AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
-      - AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+      - "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+      - "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
     volumes:
       - /opt/linuxserver/public_swag:/config
     ports:
@@ -54,9 +54,9 @@ services:
     container_name: homeassistant
     network_mode: host
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
-      - TZ=${TZ}
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
     volumes:
       - /opt/linuxserver/homeassistant:/config
     restart: unless-stopped
@@ -65,9 +65,9 @@ services:
     image: lscr.io/linuxserver/heimdall
     container_name: heimdall
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
-      - TZ=${TZ}
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
     volumes:
       - /opt/linuxserver/heimdall:/config
     restart: unless-stopped
@@ -76,9 +76,9 @@ services:
     image: lscr.io/linuxserver/overseerr
     container_name: overseerr
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
-      - TZ=${TZ}
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - "TZ=${TZ}"
     volumes:
       - /opt/linuxserver/overseerr:/config
     dns:
@@ -92,17 +92,17 @@ services:
     volumes:
       - /opt/foundryvtt:/data
     environment:
-      - FOUNDRY_PASSWORD="${FOUNDRY_PASSWORD}"
+      - "FOUNDRY_PASSWORD=${FOUNDRY_PASSWORD}"
       - FOUNDRY_USERNAME=sweeneytri@gmail.com
-      - FOUNDRY_ADMIN_KEY="${FOUNDRY_ADMIN_KEY}"
-      - FOUNDRY_UID=${UID}
-      - FOUNDRY_GID=${GID}
+      - "FOUNDRY_ADMIN_KEY=${FOUNDRY_ADMIN_KEY}"
+      - "FOUNDRY_UID=${UID}"
+      - "FOUNDRY_GID=${GID}"
     restart: unless-stopped
     
   filebrowser:
     image: filebrowser/filebrowser
     container_name: filebrowser
-    user: ${UID}:${GID}
+    user: "${UID}:${GID}"
     volumes:
       - /opt/foundryvtt/:/srv/foundryvtt
       - /opt/filebrowser/filebrowser.db:/database.db
