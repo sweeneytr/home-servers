@@ -44,6 +44,8 @@ services:
       - "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
     volumes:
       - /opt/linuxserver/public_swag:/config
+    dns:
+      -  172.17.0.1
     ports:
       - 55443:443
       - 5580:80
