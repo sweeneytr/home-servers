@@ -144,7 +144,7 @@ services:
   amp:
     container_name: amp
     image: mitchtalmadge/amp-dockerized:latest
-    mac_address: 02:42:AC:5E:A1:3D # Needs to be static for license server
+    # mac_address: 02:42:AC:5E:A1:3D # Needs to be static for license server
     network_mode: host
     volumes:
       - /srv/mrgfs_movies/.ampdata:/home/amp/.ampdata
