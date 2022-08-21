@@ -147,7 +147,7 @@ services:
     mac_address: 02:42:AC:5E:A1:3D # Needs to be static for license server
     network_mode: host
     volumes:
-      - ./ampdata:/home/amp/.ampdata
+      - /srv/mrgfs_movies/.ampdata:/home/amp/.ampdata
     environment:
       - "UID=${UID}"
       - "GID=${GID}"
