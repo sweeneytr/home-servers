@@ -170,3 +170,5 @@ services:
       - /srv/mrgfs_configs/nextcloud/config:/config
       - /srv/mrgfs_nextcloud:/data
     restart: unless-stopped
+volumes:
+  db:
