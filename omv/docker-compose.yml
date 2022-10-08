@@ -143,6 +143,7 @@ services:
 
   db:
     image: mariadb:10.5
+    container_name: nextcloud_db
     restart: always
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:
@@ -164,5 +165,6 @@ services:
       - /srv/mrgfs_configs/nextcloud/config:/config
       - /srv/mrgfs_nextcloud:/data
     restart: unless-stopped
+
 volumes:
   db:
