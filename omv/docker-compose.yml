@@ -153,9 +153,7 @@ services:
       - MYSQL_USER=nextcloud
       - "MYSQL_PASSWORD=${NEXTCLOUD_DB_USER_PASSWORD}"
     volumes:
-      - path_to_data:/config
-    ports:
-      - 3306:3306
+      - /srv/mrgfs_configs/nextcloud_db/config:/config
     restart: unless-stopped
 
   nextcloud:
