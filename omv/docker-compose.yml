@@ -140,3 +140,15 @@ services:
       - /srv/mrgfs_movies:/srv/plex
       - /opt/filebrowser/filebrowser.db:/database.db
     restart: unless-stopped
+
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: nextcloud
+    environment:
+      - "PUID=${UID}"
+      - "PGID=${GID}"
+      - TZ=America/New_York
+    volumes:
+      - /srv/mrgfs_configs/nextcloud/config:/config
+      - /srv/mrgfs_nextcloud:/data
+    restart: unless-stopped
