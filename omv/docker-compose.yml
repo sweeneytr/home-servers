@@ -142,7 +142,7 @@ services:
     restart: unless-stopped
 
   nextcloud:
-    image: lscr.io/linuxserver/nextcloud:latest
+    image: lscr.io/linuxserver/nextcloud
     container_name: nextcloud
     environment:
       - "PUID=${UID}"
